@@ -6,10 +6,13 @@ import tseslint from 'typescript-eslint';
 
 /** @type {import('eslint').Linter.Config[]} */
 export default [
-	{ files: ['src/**/*.{js,mjs,cjs,ts,jsx,tsx}'] },
+	{ files: ['**/*.{js,mjs,cjs,ts,jsx,tsx}'] },
 	{ ignores: ['node_modules', 'dist', '**/*.d.ts'] },
-	{ languageOptions: { globals: globals.browser } },
-
+	{
+		languageOptions: {
+			globals: { ...globals.browser, ...globals.node },
+		},
+	},
 	pluginJs.configs.recommended,
 	...tseslint.configs.recommended,
 	pluginReact.configs.flat.recommended,
@@ -29,6 +32,31 @@ export default [
 			'no-unused-vars': 'off',
 			'@typescript-eslint/no-unused-vars': 'warn',
 			'@typescript-eslint/no-unused-expressions': 'warn',
+			'@typescript-eslint/no-require-imports': 'off',
+			'@typescript-eslint/consistent-type-imports': [
+				'error',
+				{
+					prefer: 'type-imports',
+				},
+			],
+			'import/order': [
+				'error',
+				{
+					groups: [
+						'builtin',
+						'external',
+						'internal',
+						'parent',
+						'sibling',
+						'index',
+					],
+					'newlines-between': 'always',
+					alphabetize: {
+						order: 'asc',
+						caseInsensitive: true,
+					},
+				},
+			],
 		},
 	},
 ];
